@@ -4,6 +4,7 @@ public class ZigzagConversion {
 
     public static void main(String[] args) {
         System.out.println(convert("PAYPALISHIRING", 3) + " equals PAHNAPLSIIGYIR");
+        System.out.println(convert("PAYPALISHIRING", 4) + " equals PINALSIGYAHRPI");
     }
 
     //The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
@@ -42,38 +43,46 @@ public class ZigzagConversion {
     //1 <= s.length <= 1000
     //s consists of English letters (lower-case and upper-case), ',' and '.'.
     //1 <= numRows <= 1000
+    //https://leetcode.com/problems/zigzag-conversion/submissions/1899079724/
 
     public static String convert(String s, int numRows) {
-        byte[] arr = new byte[s.length()];
+        if(numRows==1){
+            return s;
+        }
         byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
-        int counter = 0;
-        int pointer = 0;
-        int arrNum = 0;
-        int gap = numRows + (Math.max(numRows - 2, 0));
-        while (true) {
-            if (counter == 0) {
-                arr[arrNum] = bytes[pointer];
-                bytes[pointer]=0;
-                counter = gap;
-                arrNum += 1;
-                if (arrNum >= s.length()) {
-                    break;
+        byte[][] arr =new byte[numRows][s.length()];
+        int pointer=0;
+        int y=-1;
+        int x=0;
+        while(pointer<bytes.length){
+           //go down
+            while(y<numRows && pointer<bytes.length){
+                y+=1;
+                if(y<numRows) {
+                    arr[y][x]=bytes[pointer];
+                    pointer+=1;
                 }
             }
-            if (bytes.length <= pointer + 1) {
-                pointer = 0;
-            } else {
-                pointer += 1;
+            y -= 1;
+            //go right up
+            while(y>0 && pointer<bytes.length){
+                y-=1;
+                x+=1;
+                arr[y][x]=bytes[pointer];
+                pointer+=1;
             }
-
-            if (bytes[pointer] != 0) {
-                counter -= 1;
-            }
-
-
         }
-        return  new String(arr, StandardCharsets.UTF_8);
-        //not a chance need to try one more time
+
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < s.length(); j++) {
+                if (arr[i][j] != 0) {
+                    result.append((char) arr[i][j]);
+                }
+            }
+        }
+
+        return  result.toString();
     }
 
 
