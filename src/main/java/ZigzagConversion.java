@@ -1,4 +1,6 @@
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ZigzagConversion {
 
@@ -46,30 +48,30 @@ public class ZigzagConversion {
     //https://leetcode.com/problems/zigzag-conversion/submissions/1899079724/
 
     public static String convert(String s, int numRows) {
-        if(numRows==1){
+        if (numRows == 1) {
             return s;
         }
         byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
-        byte[][] arr =new byte[numRows][s.length()];
-        int pointer=0;
-        int y=-1;
-        int x=0;
-        while(pointer<bytes.length){
-           //go down
-            while(y<numRows && pointer<bytes.length){
-                y+=1;
-                if(y<numRows) {
-                    arr[y][x]=bytes[pointer];
-                    pointer+=1;
+        byte[][] arr = new byte[numRows][s.length()];
+        int pointer = 0;
+        int y = -1;
+        int x = 0;
+        while (pointer < bytes.length) {
+            //go down
+            while (y < numRows && pointer < bytes.length) {
+                y += 1;
+                if (y < numRows) {
+                    arr[y][x] = bytes[pointer];
+                    pointer += 1;
                 }
             }
             y -= 1;
             //go right up
-            while(y>0 && pointer<bytes.length){
-                y-=1;
-                x+=1;
-                arr[y][x]=bytes[pointer];
-                pointer+=1;
+            while (y > 0 && pointer < bytes.length) {
+                y -= 1;
+                x += 1;
+                arr[y][x] = bytes[pointer];
+                pointer += 1;
             }
         }
 
@@ -82,8 +84,34 @@ public class ZigzagConversion {
             }
         }
 
-        return  result.toString();
+        return result.toString();
     }
 
+    public static String convert2(String s, int numRows) {
+        if (numRows <= 1 || s.length() <= numRows) {
+            return s;
+        }
 
+        StringBuilder[] rows = new StringBuilder[Math.min(numRows, s.length())];
+        for (int i = 0; i < rows.length; i++) {
+            rows[i] = new StringBuilder();
+        }
+
+        int currentRow = 0;
+        boolean goingDown = false;
+
+        for (char c : s.toCharArray()) {
+            rows[currentRow].append(c);
+            if (currentRow == 0 || currentRow == numRows - 1) {
+                goingDown = !goingDown;
+            }
+            currentRow += goingDown ? 1 : -1;
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder row : rows) {
+            result.append(row);
+        }
+        return result.toString();
+    }
 }
