@@ -30,6 +30,7 @@ public class CountBinarySubstrings {
     //
     //1 <= s.length <= 105
     //s[i] is either '0' or '1'.
+    //https://leetcode.com/problems/count-binary-substrings/?envType=daily-question&envId=2026-02-19
     public static int countBinarySubstrings(String s) {
         int res = 0;
         int curr = 1;
