@@ -1,6 +1,8 @@
 public class StringToInteger {
     public static void main(String[] args) {
-
+        System.out.println(myAtoi("42") + " eq 42");
+        System.out.println(myAtoi("-042") + " eq -42");
+        System.out.println(myAtoi("0-1") + " eq 0");
     }
 //Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer.
 //
@@ -89,21 +91,21 @@ public class StringToInteger {
 //s consists of English letters (lower-case and upper-case), digits (0-9), ' ', '+', '-', and '.'.
 
     //https://leetcode.com/problems/string-to-integer-atoi/description/
-    public int myAtoi(String s) {
+    public static int myAtoi(String s) {
         int res=0;
+        int i=0;
         boolean minus=false;
+        s=s.strip();
         if(s!=null && !s.isEmpty()){
-            s=s.strip();
-            if(s.charAt(0)=='-'){
+            if(s.charAt(0)=='-' || s.charAt(0)=='+'){
+                if(s.charAt(0)=='-'){
+                    minus=true;
+                }
                 s=s.substring(1);
-                minus=true;
             }
-            while (i < n && Character.isDigit(s.charAt(i))) {
+            while (i < s.length() && Character.isDigit(s.charAt(i))) {
                 int digit = s.charAt(i) - '0';
-
-                // Check for overflow
                 if (res > (Integer.MAX_VALUE - digit) / 10) {
-                    // Overflow occurs, clamp to 32-bit signed int range
                     return minus ? Integer.MIN_VALUE : Integer.MAX_VALUE;
                 }
                 res = res * 10 + digit;
