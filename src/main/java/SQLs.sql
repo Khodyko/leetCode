@@ -18,3 +18,13 @@ FROM (
     FROM logs
 ) sub
 WHERE num = prev_num AND num = next_num;
+
+
+-- Изи. Очень простая задачка, нужно узнать какие из работников получают зарплату больше своих менеджеров.
+
+-- https://leetcode.com/problems/employees-earning-more-than-their-managers/
+
+SELECT a.name Employee
+                    FROM  Employee a 
+                    LEFT JOIN Employee b ON a.managerId=b.id
+                    WHERE a.salary>b.salary
