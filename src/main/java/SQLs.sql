@@ -28,3 +28,17 @@ SELECT a.name Employee
                     FROM  Employee a 
                     LEFT JOIN Employee b ON a.managerId=b.id
                     WHERE a.salary>b.salary
+
+
+
+-- Надеюсь я когда-нибудь стану мастером оконных функций, а сейчас я решаю все подряд с помощью них.
+-- И вот еще одна задачка. Ее лучше решать группировкой)) Но группировками никого не удивишь)
+
+-- https://leetcode.com/problems/duplicate-emails/
+
+SELECT DISTINCT Email from 
+    (
+        SELECT Email, COUNT(Email) OVER (PARTITION BY Email) AS c
+        FROM Person p
+    )
+    WHERE c>=2
