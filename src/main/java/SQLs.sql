@@ -62,6 +62,33 @@ FROM (
     SELECT dep.name as d, emp.name as e, emp.salary as s,
     DENSE_RANK() OVER (PARTITION BY emp.departmentId ORDER by emp.salary DESC)
     as rnk
+
+
+
+-- https://leetcode.com/problems/customers-who-never-order/submissions/1975748541/
+
+-- Очень простая задачка:
+
+Select c.name as Customers 
+FROM Customers c 
+WHERE c.id NOT in (SELECT customerId FROM Orders )
+
+
+
+-- Я прикинул, что прошлая задачка слишком легкая. Я написал эту. Эта уже уровня хард.
+-- Я по-тихоньку становлюсь хорош в оконных функциях.
+-- https://leetcode.com/problems/department-top-three-salaries/
+
+
+SELECT a.d as Department, a.e AS Employee, a.s AS Salary 
+FROM (
+    SELECT dep.name as d, emp.name as e, emp.salary as s, 
+        DENSE_RANK() OVER (PARTITION BY dep.name ORDER BY emp.salary DESC) AS rnk
+    FROM Employee emp
+    JOIN Department dep 
+    ON emp.departmentId=dep.id   
+) as a
+WHERE rnk<4
     FROM Employee emp
     JOIN Department dep ON dep.id=emp.departmentId
 ) as a
