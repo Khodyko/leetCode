@@ -93,3 +93,18 @@ WHERE rnk<4
     JOIN Department dep ON dep.id=emp.departmentId
 ) as a
 WHERE a.rnk=1;
+
+
+
+-- Сегодняшняя порция литкода.  Оконные функции всё еще продолжаются.
+-- https://leetcode.com/problems/game-play-analysis-i/
+
+
+-- Write your PostgreSQL query statement below
+SELECT a.player_id, a.event_date AS first_login
+FROM (
+    SELECT player_id, event_date, 
+    DENSE_RANK() OVER (partition by player_id ORDER by event_date) rnk
+    FROM Activity
+) as a
+where a.rnk=1
