@@ -108,3 +108,17 @@ FROM (
     FROM Activity
 ) as a
 where a.rnk=1
+
+
+
+-- Достойная задачка на оконные функции.
+-- https://leetcode.com/problems/game-play-analysis-iv/
+
+
+SELECT ROUND(COUNT(DISTINCT a.player_id)::numeric/(SELECT COUNT(DISTINCT player_id) FROM Activity),2) AS fraction FROM
+(
+    SELECT player_id, device_id, event_date, 
+        MIN(event_date) OVER (partition by player_id) AS first_day
+        FROM Activity
+) as a
+WHERE event_date=(first_day  + INTERVAL '1' DAY)
