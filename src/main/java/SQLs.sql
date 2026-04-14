@@ -122,3 +122,18 @@ SELECT ROUND(COUNT(DISTINCT a.player_id)::numeric/(SELECT COUNT(DISTINCT player_
         FROM Activity
 ) as a
 WHERE event_date=(first_day  + INTERVAL '1' DAY)
+
+
+
+
+-- Прошла буквально неделя и оконные функции уже совсем не кажутся сложными.
+-- https://leetcode.com/problems/managers-with-at-least-5-direct-reports/
+
+
+-- Write your PostgreSQL query statement below
+SELECT a.name FROM (
+    SELECT e.managerId, e2.name, ROW_NUMBER() OVER (partition by e.managerId) rnk
+    FROM Employee e JOIN Employee e2
+    ON e.managerId=e2.id
+) a
+WHERE rnk=5
