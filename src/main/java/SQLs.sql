@@ -152,3 +152,17 @@ e.empId=b.empId
 WHERE
 bonus IS NULL OR
 bonus<1000
+
+
+
+-- https://leetcode.com/problems/find-customer-referee
+
+SELECT name
+FROM Customer
+WHERE referee_id IS NULL OR referee_id != 2;
+
+-- или используя COALESCE (кто знает как это читается?)))
+
+SELECT name
+FROM Customer
+WHERE COALESCE(referee_id,0) != 2;
