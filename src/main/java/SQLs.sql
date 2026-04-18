@@ -166,3 +166,22 @@ WHERE referee_id IS NULL OR referee_id != 2;
 SELECT name
 FROM Customer
 WHERE COALESCE(referee_id,0) != 2;
+
+
+
+
+-- Сегодня была достаточно интересная задача.
+-- Я получил удовольствие. Однозначно лайк.
+
+-- https://leetcode.com/problems/investments-in-2016/
+
+
+-- Write your PostgreSQL query statement below
+SELECT ROUND(SUM(r.tiv_2016)::numeric,2) as tiv_2016 FROM 
+(
+    SELECT tiv_2016, 
+    COUNT(tiv_2015) over (partition by tiv_2015) as ct,
+    COUNT(CONCAT(lat,',', lon)) over (partition by CONCAT(lat,',', lon)) as cll
+    FROM Insurance
+) as r
+where ct>1 AND cll=1
