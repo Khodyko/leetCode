@@ -185,3 +185,18 @@ SELECT ROUND(SUM(r.tiv_2016)::numeric,2) as tiv_2016 FROM
     FROM Insurance
 ) as r
 where ct>1 AND cll=1
+
+
+-- Сегодняшняя небольшая задачка sql
+
+-- https://leetcode.com/problems/customer-placing-the-largest-number-of-orders/
+
+-- Write your PostgreSQL query statement below
+SELECT customer_number FROM
+(
+    SELECT customer_number,
+    COUNT(customer_number) OVER (partition by customer_number) as c
+    FROM Orders
+) 
+ORDER BY c desc
+LIMIT 1
