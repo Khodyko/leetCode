@@ -200,3 +200,12 @@ SELECT customer_number FROM
 ) 
 ORDER BY c desc
 LIMIT 1
+
+
+-- Сегодня слишком простая задача
+-- https://leetcode.com/problems/big-countries/
+
+
+-- Write your PostgreSQL query statement below
+SELECT name, population, area FROM World
+WHERE area>=3000000 OR population>=25000000
