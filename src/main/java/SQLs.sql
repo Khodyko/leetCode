@@ -244,3 +244,24 @@ SELECT id, visit_date, people FROM
 WHERE   (people >= 100 AND prev1 >= 100 AND prev2 >= 100)
  OR (people >= 100 AND prev1 >= 100 AND next1 >= 100)
  OR (people >= 100 AND next1 >= 100 AND next2 >= 100)
+
+
+
+
+
+-- Сегодня мне задача показалась сложной
+-- https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends/description/
+
+
+-- Write your PostgreSQL query statement below
+SELECT id, sum(num) as num FROM
+(
+    SELECT requester_id as id, count(*) as num FROM RequestAccepted
+    group by requester_id
+    UNION ALL
+    SELECT accepter_id as id, count(*) as num FROM RequestAccepted
+    group by accepter_id
+)
+group by id
+order by sum(num) desc
+LIMIT 1
