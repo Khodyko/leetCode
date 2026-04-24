@@ -265,3 +265,16 @@ SELECT id, sum(num) as num FROM
 group by id
 order by sum(num) desc
 LIMIT 1
+
+
+
+-- Сегодня я заиспользовал слово, которое раньше не использовал в sql - EXCEPT, здесь оно круто подходит.
+
+-- https://leetcode.com/problems/sales-person/
+
+-- Write your PostgreSQL query statement below
+(SELECT name FROM SalesPerson)
+EXCEPT
+(SELECT name FROM SalesPerson AS sp
+JOIN ORDERS as o ON sp.sales_id=o.sales_id
+WHERE o.com_id=(SELECT com_id FROM Company WHERE name='RED'))
