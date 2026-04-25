@@ -278,3 +278,20 @@ EXCEPT
 (SELECT name FROM SalesPerson AS sp
 JOIN ORDERS as o ON sp.sales_id=o.sales_id
 WHERE o.com_id=(SELECT com_id FROM Company WHERE name='RED'))
+
+
+
+-- Еще задачка
+-- https://leetcode.com/problems/tree-node/
+
+-- Write your PostgreSQL query statement below
+SELECT id, 
+case
+    when p_id is NULL
+    THEN 'Root'
+    WHEN not exists (SELECT * FROM Tree t2 WHERE t1.id=t2.p_id)
+    THEN 'Leaf'
+    else 'Inner'
+    END
+as type 
+FROM Tree t1
