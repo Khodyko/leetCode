@@ -295,3 +295,17 @@ case
     END
 as type 
 FROM Tree t1
+
+
+-- Сегодня узнал про greatest,  думал, что для этого max используется.
+-- https://leetcode.com/problems/triangle-judgement/
+
+
+SELECT x, y, z,
+CASE
+WHEN ((x+y+z)-GREATEST(x, y, z))<=GREATEST(x, y, z)
+THEN 'No'
+ELSE 'Yes'
+END
+AS triangle
+FROM Triangle
