@@ -309,3 +309,20 @@ ELSE 'Yes'
 END
 AS triangle
 FROM Triangle
+
+
+
+-- Я как-то так решил.
+-- https://leetcode.com/problems/biggest-single-number/
+
+-- Write your PostgreSQL query statement below
+SELECT 
+COALESCE((
+    SELECT num
+        FROM (
+    SELECT num, COUNT(num) 
+    FROM MyNumbers 
+    GROUP BY num HAVING COUNT(num)=1
+    )
+    ORDER BY num desc LIMIT 1
+), null) as num
